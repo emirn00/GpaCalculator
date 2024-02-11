@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator_app/Constants/app-constants.dart';
+import 'package:gpa_calculator_app/Widgets/course_list.dart';
 import 'package:gpa_calculator_app/Widgets/show-gpa.dart';
 import 'package:gpa_calculator_app/helper/data_helper.dart';
 import 'package:gpa_calculator_app/model/course.dart';
@@ -42,11 +43,18 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
             ],
           ),
           Expanded(
-            child: Container(
-              child: Text('List parts'),
-              color: Colors.blue,
+            child:CourseList(
+              onDismiss: (index){
+                print('course removed $index');
+                Datas.courses.removeAt(index);
+                setState(() {
+                  
+                });
+
+              },
             ),
-          )
+          ),
+         
         ],
       )
     );
