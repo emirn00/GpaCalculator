@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator_app/Constants/app-constants.dart';
+import 'package:gpa_calculator_app/Widgets/show-gpa.dart';
+import 'package:gpa_calculator_app/helper/data_helper.dart';
 
 class GpaCalculatorApp extends StatefulWidget {
   const GpaCalculatorApp({super.key});
@@ -11,6 +13,7 @@ class GpaCalculatorApp extends StatefulWidget {
 }
 
 class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
+  double selectedValue = 4.0 ;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -30,10 +33,7 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
             child: _buildForm(),
           ),
            Expanded(
-            child: Container(
-              child: Text('gpa'),
-              color: Colors.yellow,
-            ),
+            child: ShowGpa(courseNumber: 0 , gpa: 0),
           )
             ],
           ),
@@ -57,9 +57,7 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
-                onPressed: (){},
-                icon: Icon(Icons.abc) ),
+                _buildLetters(),
                 IconButton(
                 onPressed: (){},
                 icon: Icon(Icons.abc) ),
@@ -84,6 +82,30 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
         filled: true,
         fillColor: Constants.mainColor.shade100.withOpacity(0.3)
       ),
+    );
+  }
+  
+  _buildLetters() {
+  
+    return Container(
+      padding: Constants.dropdownPadding ,
+      decoration: BoxDecoration(color: Constants.mainColor.shade100.withOpacity(0.3),
+      borderRadius: Constants.borderRadius
+      ),
+      child: DropdownButton<double>(
+        elevation: 16,
+        iconEnabledColor: Constants.mainColor.shade300,
+        value: selectedValue,
+        onChanged:(value) {
+          setState(() {
+           selectedValue = value! ; 
+          });          
+        },
+        underline: Container(),
+        items: 
+          Datas.grades(),
+      ),
+      
     );
   }
 }
