@@ -1,9 +1,10 @@
-// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, unused_element
+// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, unused_element, curly_braces_in_flow_control_structures, prefer_is_empty, avoid_print, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator_app/Constants/app-constants.dart';
 import 'package:gpa_calculator_app/Widgets/show-gpa.dart';
 import 'package:gpa_calculator_app/helper/data_helper.dart';
+import 'package:gpa_calculator_app/model/course.dart';
 
 class GpaCalculatorApp extends StatefulWidget {
   const GpaCalculatorApp({super.key});
@@ -15,7 +16,9 @@ class GpaCalculatorApp extends StatefulWidget {
 class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
   double selectedLetterValue = 4 ;
   double selectedCreditValue = 1 ;
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String enteredCourseName = " ";
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,7 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
             child: _buildForm(),
           ),
            Expanded(
-            child: ShowGpa(courseNumber: 0 , gpa: 0),
+            child: ShowGpa(courseNumber: Datas.courses.length , gpa: Datas.calculateGpa()),
           )
             ],
           ),
@@ -51,7 +54,7 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
   
   Widget _buildForm() {
     return Form(
-      key: formKey ,
+      key: _formKey ,
       child: Column(
         children: [
           Padding(
@@ -74,7 +77,7 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
                                 ),
                 ), 
                 IconButton(
-                onPressed: (){},
+                onPressed: _addCourseAndCalculateGpa,
                 icon: Icon(Icons.arrow_forward_ios , color: Constants.mainColor, size: 30,) )
             ],
           ),
@@ -87,6 +90,16 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
   
   Widget _buildTextFormField() {
     return TextFormField(
+      onSaved: (value){
+        setState(() {
+          enteredCourseName = value! ;
+        });
+      },
+      validator: (s){
+        if(s!.length <= 0)
+          return 'enter course name';
+          return null ;       
+      },
       decoration: InputDecoration(
         hintText: 'Calculus',
         border: OutlineInputBorder(
@@ -148,4 +161,22 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
       
     );
   }
+  
+  _addCourseAndCalculateGpa() {
+  if ((_formKey.currentState!.validate())) {
+    _formKey.currentState!.save();
+    var enteredCourse = Course(
+      name: enteredCourseName,
+      courseValue: selectedLetterValue,
+      credit: selectedCreditValue);
+    Datas.addCourse(enteredCourse);
+    print(Datas.courses);
+    print(Datas.calculateGpa());
+    setState(() {
+      
+    });
+  }
+}
+
+
 }

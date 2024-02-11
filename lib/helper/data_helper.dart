@@ -1,14 +1,27 @@
-// ignore_for_file: unused_field, unused_element, sort_child_properties_last
-
-import 'dart:math';
+// ignore_for_file: unused_field, unused_element, sort_child_properties_last, unused_local_variable, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
+import 'package:gpa_calculator_app/model/course.dart';
 
 class Datas{
-  
+  static List<Course> courses = [];
+  static addCourse(Course course){
+    courses.add(course);
+  }
   static List<String> _allLetterGrades(){
 
     return ['AA' , 'BA' ,'BB' , 'CB', 'CC' , 'DC' , 'DD' ,'FD' , 'FF'];
+  }
+  static calculateGpa(){
+    double totalGrade  = 0 ; 
+    double totalCredits = 0;
+
+    courses.forEach((element) {
+      totalGrade = totalGrade + (element.credit *  element.courseValue);
+      totalCredits += element.credit;
+    }
+    );
+    return totalGrade / totalCredits ;
   }
 
   static double _letterToGrade(String letter){
