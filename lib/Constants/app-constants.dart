@@ -9,7 +9,7 @@ class Constants{
   static final TextStyle headerStyle = GoogleFonts.quicksand(
     fontSize: 24 , fontWeight: FontWeight.w900 , color: mainColor
   );
-  static BorderRadius borderRadius = BorderRadius.circular(24);
+  static BorderRadius borderRadius = BorderRadius.circular(16);
 
   static final TextStyle courseNumberStyle = GoogleFonts.quicksand(
     fontSize: 16 , fontWeight: FontWeight.w600 , color: mainColor
@@ -19,4 +19,5 @@ class Constants{
     fontSize: 55 , fontWeight: FontWeight.w800 , color: mainColor
   );
   static final EdgeInsets dropdownPadding = EdgeInsets.symmetric(horizontal: 16 , vertical: 8);
+   static final  horizontalPadding = EdgeInsets.symmetric(horizontal:8);
 }

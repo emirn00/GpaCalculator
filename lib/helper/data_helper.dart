@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, unused_element
+// ignore_for_file: unused_field, unused_element, sort_child_properties_last
 
 import 'dart:math';
 
@@ -39,4 +39,12 @@ class Datas{
   static List<DropdownMenuItem<double>> grades(){
     return _allLetterGrades().map((e) => DropdownMenuItem(child: Text(e),value: _letterToGrade(e),)).toList();
   } 
+
+  static List<int> credits(){
+    return List.generate(10, (index) => index+1).toList();
+  }
+  static List<DropdownMenuItem<double>> allCredits(){
+
+    return credits().map((e) => DropdownMenuItem(child: Text(e.toString()), value: e.toDouble(),)).toList();
+  }
 }

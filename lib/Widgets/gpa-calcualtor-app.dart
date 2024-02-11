@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator_app/Constants/app-constants.dart';
@@ -13,7 +13,8 @@ class GpaCalculatorApp extends StatefulWidget {
 }
 
 class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
-  double selectedValue = 4.0 ;
+  double selectedLetterValue = 4 ;
+  double selectedCreditValue = 1 ;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -53,19 +54,31 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
       key: formKey ,
       child: Column(
         children: [
-          _buildTextFormField(),
+          Padding(
+            padding: Constants.horizontalPadding,
+            child: _buildTextFormField()),
+            SizedBox(
+              height: 5,
+            ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                _buildLetters(),
+              Expanded(
+                child: Padding(padding: EdgeInsets.symmetric(horizontal: 8),
+                child: _buildLetters(),
+                ),
+              ),      
+                Expanded(
+                  child: Padding(padding: Constants.horizontalPadding,
+                                child: _buildCredits(),
+                                ),
+                ), 
                 IconButton(
                 onPressed: (){},
-                icon: Icon(Icons.abc) ),
-                IconButton(
-                onPressed: (){},
-                icon: Icon(Icons.abc) )
+                icon: Icon(Icons.arrow_forward_ios , color: Constants.mainColor, size: 30,) )
             ],
-          )
+          ),
+          SizedBox(height: 5,)
 
         ],
       ),
@@ -78,6 +91,7 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
         hintText: 'Calculus',
         border: OutlineInputBorder(
           borderRadius: Constants.borderRadius,
+          borderSide: BorderSide.none
         ),
         filled: true,
         fillColor: Constants.mainColor.shade100.withOpacity(0.3)
@@ -88,6 +102,7 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
   _buildLetters() {
   
     return Container(
+      alignment: Alignment.center,
       padding: Constants.dropdownPadding ,
       decoration: BoxDecoration(color: Constants.mainColor.shade100.withOpacity(0.3),
       borderRadius: Constants.borderRadius
@@ -95,15 +110,40 @@ class _GpaCalculatorAppState extends State<GpaCalculatorApp> {
       child: DropdownButton<double>(
         elevation: 16,
         iconEnabledColor: Constants.mainColor.shade300,
-        value: selectedValue,
+        value: selectedLetterValue,
         onChanged:(value) {
           setState(() {
-           selectedValue = value! ; 
+           selectedLetterValue = value! ; 
           });          
         },
         underline: Container(),
         items: 
           Datas.grades(),
+      ),
+      
+    );
+  }
+
+  _buildCredits() {
+  
+    return Container(
+      alignment: Alignment.center,
+      padding: Constants.dropdownPadding ,
+      decoration: BoxDecoration(color: Constants.mainColor.shade100.withOpacity(0.3),
+      borderRadius: Constants.borderRadius
+      ),
+      child: DropdownButton<double>(
+        elevation: 16,
+        iconEnabledColor: Constants.mainColor.shade300,
+        value: selectedCreditValue,
+        onChanged:(value) {
+          setState(() {
+           selectedCreditValue = value! ; 
+          });          
+        },
+        underline: Container(),
+        items: 
+          Datas.allCredits()
       ),
       
     );
